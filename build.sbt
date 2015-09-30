@@ -27,6 +27,7 @@ val license = ("MIT", url("http://opensource.org/licenses/MIT"))
 
 val catsVersion = "0.2.0"
 val disciplineVersion = "0.4"
+val exportHookVersion = "1.0.3-SNAPSHOT"
 val kindProjectorVersion = "0.6.3"
 val machinistVersion = "0.4.1"
 val macroCompatVersion = "1.0.2"
@@ -48,13 +49,14 @@ lazy val buildSettings = Seq(
 lazy val commonSettings = sharedCommonSettings ++ Seq(
   scalacOptions ++= commonScalacOptions,
   parallelExecution in Test := false,
-  // resolvers += Resolver.sonatypeRepo("snapshots")
+  resolvers += Resolver.sonatypeRepo("snapshots"),
   libraryDependencies ++= Seq(
     "com.github.mpilquist" %%% "simulacrum" % simulacrumVersion,
+    "org.typelevel" %%% "export-hook" % exportHookVersion,
     "org.typelevel" %%% "machinist" % machinistVersion,
     compilerPlugin("org.spire-math" %% "kind-projector" % kindProjectorVersion)
   )
-) ++ warnUnusedImport ++ unidocCommonSettings
+) /* ++ warnUnusedImport */ ++ unidocCommonSettings  // -Ywarn-unused-import doesn't like macro annotations
 
 lazy val commonJsSettings = Seq(
   scalaJSStage in Global := FastOptStage
